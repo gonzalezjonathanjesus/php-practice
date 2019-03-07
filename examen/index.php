@@ -9,14 +9,21 @@
 */
 
 function isStraight($hand) {
+    
+    if ( in_array(14, $hand) ) { 
+        array_push($hand, 1);
+        return true; 
+    }else {
+       return false; 
+    }
+
     $hand = (object)array(
         'maxCardsPerHand' => 7,
         'straight' => 5,
-        'straightHavingAS' => 4,
         'cards' => $hand,
-        'length' => count($hand),
-        'existAS' => in_array(14, $hand)
+        'length' => count($hand)
     );
+    var_dump($hand->existAS);
 
     if($hand->length >= $hand->straight  && $hand->length <= $hand->maxCardsPerHand) {
         sort($hand->cards);
@@ -32,11 +39,7 @@ function isStraight($hand) {
 
                 $consecutiveCounter++;
 
-                if ($hand->existAS) {
-                    if ($consecutiveCounter >= $hand->straightHavingAS) {
-                        return true;
-                    }
-                } elseif ($consecutiveCounter >= $hand->straight) {
+               if ($consecutiveCounter >= $hand->straight) {
                     return true;
                 }
 
