@@ -1,58 +1,26 @@
 <?php
-
-/*
-echo 'Current card: '.$hand[$i].'<br>';
-echo 'Last card: '.$lastValue.'<br>';
-echo 'Operation result: '.($hand[$i] - $lastValue).'<br>';
-echo 'Consecutive Counter: '.$consecutiveCounter.'<br>';
-echo '======================================================= <br>';
-*/
-
 function isStraight($hand) {
-    $hand = (object)array(
-        "maxCardsPerHand" => 7,
-        "cards" => $hand,
-        "length" => count($hand),
-        "existAS" => in_array(14, $hand)
-    );
-
-    if($hand->length > $hand->maxCardsPerHand || $hand->length < 5) {
-        return false;
-    } else {
+    $hand = (object)array('maxCardsPerHand' => 7, 'straight' => 5, 'cards' => $hand, 'length' => count($hand));
+    if($hand->length >= $hand->straight  && $hand->length <= $hand->maxCardsPerHand) {
+        if ( in_array(14, $hand->cards) ) { 
+            array_push($hand->cards, 1);
+            $hand->length = count($hand->cards);
+        }
         sort($hand->cards);
-        
-        $consecutiveCounter = 0;
-
-        array_filter($hand->cards, function ($key) use ($value){
-            
-        });
-
-        for($i = 0; $i < $hand->length; $i++ ) {
-
-            if($i === 0 || ($hand->cards[$i] - $hand->cards[$i-1]) <= 1) {
-
-                $consecutiveCounter++;
-
-                if ($hand->existAS) {
-                    if($consecutiveCounter >= 4) {
-                        return true;
-                    }
-                } else {
-                    if($consecutiveCounter >= 5) {
-                        return true;
-                    }
-                }
-
-            } else {
-                $consecutiveCounter = 0;
+        $iterations = $hand->length - 4;
+        for($i = 0; $i < $iterations; $i++ ) {
+            if($hand->cards[$i + 4] == ($hand->cards[$i] + 4)) {
+                return true;
             }
         }
+        return false;
+    } else {
         return false;
     }
 }
 
+$hand = array(14, 5, 4 ,2, 3);
 
-$hand = array(10,11,12,13,14);
 var_dump(isStraight($hand));
 
 ?>
