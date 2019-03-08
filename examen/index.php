@@ -26,7 +26,7 @@ function isStraight($hand) {
 }
 
 
-$hand = array(2, 3, 4, 5, 14);
+$hand = array(7, 8, 12, 13, 14);
 
 var_dump(isStraight($hand));
 
